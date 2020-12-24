@@ -14,15 +14,12 @@ class Graph():
         self.weights = {}
     
     def addEdge(self, from_node, to_node, weight):
-        # Note: assumes edges are bi-directional
         self.edges[from_node].append(to_node)
         self.edges[to_node].append(from_node)
         self.weights[(from_node, to_node)] = weight
         self.weights[(to_node, from_node)] = weight
 
 def dijsktra(graph, initial, end):
-    # shortest paths is a dict of nodes
-    # whose value is a tuple of (previous node, weight)
     shortest_paths = {initial: (None, 0)}
     current_node = initial
     visited = set()
@@ -44,10 +41,8 @@ def dijsktra(graph, initial, end):
         next_destinations = {node: shortest_paths[node] for node in shortest_paths if node not in visited}
         if not next_destinations:
             return "Route Not Possible"
-        # next node is the destination with the lowest weight
         current_node = min(next_destinations, key=lambda k: next_destinations[k][1])
-    
-    # Work back through destinations in shortest path
+
     path = []
    
     while current_node is not None:
@@ -63,29 +58,14 @@ def dijsktra(graph, initial, end):
 
 
 def main():
-
     g = Graph()
-    
     n = int(input("Enter the number of Edges: "))
     for i in range(n):
         vortex1 = input("Enter from: ")
         vortex2 = input("Enter to: ")
         weight = int(input("Enter the weight: "))
         g.addEdge(vortex1, vortex2, weight)
-
-   # g.addEdge('a', 'b', 4)
-    #g.addEdge('a', 'c', 2)
-    #g.addEdge('b', 'c', 1)
-    #g.addEdge('b', 'd', 5)
-    #g.addEdge('c', 'd', 8)
-    #g.addEdge('c', 'e', 10)
-    #g.addEdge('d', 'e', 2)
-    #g.addEdge('d', 'z', 6)
-    #g.addEdge('e', 'z', 5)
     vortex1 = input("Enter the vortex 1 for shortest weight: ")
     vortex2 = input("Enter the vortex 2 for shortest weight: ")
-  
-    # Dijkstras Algo
-    #dijsktra(g, 'a', 'z')
     dijsktra(g, vortex1, vortex2)
 main()
